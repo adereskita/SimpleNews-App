@@ -1,3 +1,3 @@
 # SimpleNews-App
-# SimpleNews-App
-# SimpleNews-App
+Note :
+- Delete local saved news from context menu (Hold down the list)
