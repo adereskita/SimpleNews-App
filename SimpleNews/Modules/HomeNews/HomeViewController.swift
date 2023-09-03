@@ -231,6 +231,17 @@ extension HomeViewController: UICollectionViewDelegate, UICollectionViewDataSour
     }
 }
 
+extension HomeViewController: UICollectionViewDelegateFlowLayout {
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
+        if isSearchEmptyState {
+            return CGSize(width: collectionView.bounds.width, height: 60)
+        } else {
+            guard let layout = collectionView.collectionViewLayout as? HomeCollectionFlowLayout else { return CGSize(width: collectionView.bounds.width, height: 120) }
+            return layout.itemSize
+        }
+    }
+}
+
 extension HomeViewController: UISearchResultsUpdating, UISearchBarDelegate {
     func updateSearchResults(for searchController: UISearchController) {
         guard let searchText = searchController.searchBar.text else { return }
@@ -272,7 +283,7 @@ extension HomeViewController: UISearchResultsUpdating, UISearchBarDelegate {
             isSearchEmptyState = false
             viewModel.newsSearchList.removeAll()
             viewModel.addSuggestions(text: searchText)
-            viewModel.fetchSearchNews(query: searchText, page: 0)
+            viewModel.fetchSearchNews(query: searchText, page: currentPage)
             collectionView?.reloadData()
         }
     }
